@@ -2,35 +2,48 @@
     <img src="./cognite_logo.png" alt="Cognite logo" title="Cognite" align="right" height="80" />
 </a>
 
-StoryHooks
-==========================
+# Storyhooks
 
-## Setup
+Storyhooks is a super tiny tool intended to make setup and mocking easier when writing stories in Storybook for React components.
 
-Run `yarn`
+It is intended to emulate a `beforeEach`/`afterEach` workflow -- the `didMount` function is called when the child is being mounted, and the `willUnmount` function can be used to perform a teardown when the child is ready to be unmounted.
 
-## Run
+[![npm version](https://badge.fury.io/js/%40cognite%2Fstoryhooks.svg)](https://badge.fury.io/js/%40cognite%2Fstoryhooks)
 
-Run `yarn start`
+## Getting started
 
-## Storybook
+`yarn add @cognite/storyhooks`
 
-To showcase your component you can use storybooks by introducing different stories for your component
+or
 
-Run `yarn storybook`
+`npm i @cognite/storyhooks`
 
-## Tests
+## Example Usage
 
-Utilising Jest and Enzyme you can test your component
+To make use of StoryHooks in individual stories, start by importing it at the top of the file containing them:
 
-Run `yarn test`
+`import StoryHooks from '@cognite/storyhooks';`
 
-## License
+Pass in components as children of the StoryHooks component. Multiple children are supported. Check out `stories/index.stories.tsx` for more examples.
 
-[Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+```
+<StoryHooks
+  didMount={() => {
+    // This is a great place to perform setup actions, such as mocking out API calls performed by the component
+    sinon.stub(backend, 'fetchData').returns([{ id: 1, value: 'my data' }]);
+  }}
+  willUnmount={() => {
+    // This is a great place to perform teardown actions, such as:
+    sinon.restore();
+  }}
+>
+  <MyAwesomeComponent />
+  <AnotherAwesomeComponent />
+</StoryHooks>
+```
 
-## Release
+## Contributing
 
-On a main brunch merge package will be automatically published to npm with updating patch version
+Feel free to send us a PR.
 
-Run `yarn publish-module`
+By contributing you agree to abide by the [Code of Conduct](https://github.com/cognitedata/storyhooks/blob/master/CODE_OF_CONDUCT.md).
