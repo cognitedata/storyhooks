@@ -79,7 +79,7 @@ podTemplate(
       }
       stage('Deploy storybook') {
         sh("yarn add --dev @cognite/release-manager")
-        sh("yarn cognite-release-manager deploy-storybook -z storybook.tar.gz --output=storybook.md --repo __REPOSITORY_NAME__")
+        sh("yarn cognite-release-manager deploy-storybook -z storybook.tar.gz --output=storybook.md --repo storyhooks")
         // If the autodeploy dropped a storybook.md file, then it should be posted
         // as a comment on GitHub.
         if (fileExists('storybook.md')) {
