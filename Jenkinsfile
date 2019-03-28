@@ -78,19 +78,21 @@ podTemplate(
         sh("tar -zcvf storybook.tar.gz storybook-static/*")
       }
       stage('Deploy storybook') {
-        sh("yarn deploy-storybook")
-      }
-      // If the autodeploy dropped a storybook.md file, then it should be posted
-      // as a comment on GitHub.
-      if (fileExists('storybook.md')) {
-        stage('Comment on GitHub (Storybook)') {
-          markdown = readFile('storybook.md')
-          pullRequest.comment("${PR_COMMENT_MARKER}${markdown}")
+        sh("yarn add --dev @cognite/release-manager")
+        sh("yarn cognite-release-manager deploy-storybook -z storybook.tar.gz --output=storybook.md --repo storyhooks")
+        // If the autodeploy dropped a storybook.md file, then it should be posted
+        // as a comment on GitHub.
+        if (fileExists('storybook.md')) {
+          stage('Comment on GitHub (Storybook)') {
+            markdown = readFile('storybook.md')
+            pullRequest.comment("${PR_COMMENT_MARKER}${markdown}")
+          }
         }
       }
       if (env.BRANCH_NAME == 'master') {
         stage('Publish to npm') {
-          sh('yarn publish-module')
+          sh("yarn add --dev @cognite/release-manager")
+          sh('yarn cognite-release-manager publish-module')
         }
       }
     }
