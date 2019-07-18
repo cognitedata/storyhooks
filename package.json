@@ -1,6 +1,6 @@
 {
   "name": "@cognite/storyhooks",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "",
   "contributors": [
     ""
@@ -31,6 +31,7 @@
     "@babel/core": "^7.3.3",
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
+    "@cognite/release-manager": "^0.1.85",
     "@storybook/addon-actions": "^4.1.13",
     "@storybook/addon-links": "^4.1.13",
     "@storybook/addons": "^4.1.13",
