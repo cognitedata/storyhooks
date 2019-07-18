@@ -3,7 +3,7 @@ import React from 'react';
 export type HookFunction = () => void;
 
 export interface StoryHooksProps {
-  didMount?: HookFunction;
+  didMount?: () => HookFunction | undefined;
   willUnmount?: HookFunction;
 }
 
@@ -15,15 +15,23 @@ export interface StoryHooksProps {
  * child being unmounted.
  */
 class StoryHooks extends React.PureComponent<StoryHooksProps> {
+  private unmountCallback: HookFunction | undefined;
+
   public componentDidMount() {
     const { didMount } = this.props;
     if (didMount) {
-      didMount();
+      this.unmountCallback = didMount();
     }
   }
 
   public componentWillUnmount() {
-    const { willUnmount } = this.props;
+    const {
+      unmountCallback,
+      props: { willUnmount },
+    } = this;
+    if (unmountCallback) {
+      unmountCallback();
+    }
     if (willUnmount) {
       willUnmount();
     }
