@@ -39,7 +39,7 @@ podTemplate(
                   mountPath: '/cognite-cicd-ssh',
                   readOnly: true)
   ]) {
-    properties([buildDiscarder(logRotator(daysToKeepStr: '30', numToKeepStr: '20'))])
+    properties([])
     node(label) {
     def gitCommit
     stage('Checkout code') {
